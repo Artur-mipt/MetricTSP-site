@@ -1,60 +1,120 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
+import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import Navbar from '../Home/Navbar.js'
+import { register } from '../actions/auth'
 
-class Registration extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {value: ''};
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+export class Register extends React.Component {
+  state = {
+    username: "",
+    email: "",
+    password: "",
+    password2: ""
+  };
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  }
+  static propTypes = {
+    register: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool
+  };
 
-  handleSubmit(event) {
-    alert('Отправленное имя: ' + this.state.value);
-    event.preventDefault();
-  }
+  onSubmit = e => {
+    e.preventDefault();
+    const { username, email, password, password2 } = this.state;
+    if (password !== password2) {
+      console.log('retry');
+    } else {
+      const newUser = {
+        username,
+        password,
+        email
+      };
+      this.props.register(newUser);
+    }
+  };
+
+  onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   render() {
+    if (this.props.isAuthenticated) {
+      return <Redirect to="/home/" />;
+    }
+    const { username, email, password, password2 } = this.state;
     return (
-    <div className='enter-form'>
+      <div className='wrapper'>
       <div>
         <Navbar/>
       </div>
 
       <div>
-        <form className="form-signin" onSubmit={this.handleSubmit}>
-        <h1 className="h3 mb-3 font-weight-normal">Зарегистрируйтесь</h1>
-        <label for="inputEmail" className="sr-only">Email address</label>
-        <input type="email" id="inputEmail" 
-               className="form-control" placeholder="Email address"
-               required autofocus value={this.state.value} onChange={this.handleChange}/>
-        
-        <label for="inputPassword" className="sr-only">Password</label>
-        <input type="password" id="inputPassword" className="form-control" placeholder="Password" required />
-
-        <label for="inputPassword" className="sr-only">Password</label>
-        <input type="password" id="inputPassword" className="form-control" placeholder="Confirm password" required />
-
-        <div className="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me" /> Remember me
-          </label>
+      <div className="col-md-6 m-auto">
+        <div className="card card-body mt-5">
+          <h2 className="text-center">Register</h2>
+          <form onSubmit={this.onSubmit}>
+            <div className="form-group">
+              <label>Никнейм</label>
+              <input
+                type="text"
+                className="form-control"
+                name="username"
+                onChange={this.onChange}
+                value={username}
+              />
+            </div>
+            <div className="form-group">
+              <label>Эл. почта</label>
+              <input
+                type="email"
+                className="form-control"
+                name="email"
+                onChange={this.onChange}
+                value={email}
+              />
+            </div>
+            <div className="form-group">
+              <label>Пароль</label>
+              <input
+                type="password"
+                className="form-control"
+                name="password"
+                onChange={this.onChange}
+                value={password}
+              />
+            </div>
+            <div className="form-group">
+              <label>Подтвердите пароль</label>
+              <input
+                type="password"
+                className="form-control"
+                name="password2"
+                onChange={this.onChange}
+                value={password2}
+              />
+            </div>
+            <div className="form-group">
+              <button type="submit" className="btn btn-primary">
+                Зарегистрироваться
+              </button>
+            </div>
+            <p>
+              Уже есть аккаунт? <Link to="/login">Войти</Link>
+            </p>
+          </form>
         </div>
-        	
-        <button className="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
-        <p className="mt-5 mb-3 text-muted">&copy; 2019</p>
-        </form>
       </div>
-    </div>
-
-  );
+      </div>
+      </div>
+    );
   }
 }
 
-export default Registration
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(
+  mapStateToProps,
+  { register }
+)(Register);

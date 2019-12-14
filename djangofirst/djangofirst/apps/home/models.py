@@ -31,6 +31,11 @@ class Lead(models.Model):
 
 
 class Task(models.Model):
+	owner = models.ForeignKey(User,
+	 	related_name="task",
+	 	on_delete=models.CASCADE,
+	 	null=True)
+
 	edge1 = models.CharField(max_length=100)
 	edge2 = models.CharField(max_length=100)
 	edge3 = models.CharField(max_length=100)

@@ -1,54 +1,86 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import React from 'react';
-import Navbar from '../Home/Navbar.js'
+import React, { Component } from "react";
+import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { login } from "../actions/auth";
+import Navbar from '../Home/Navbar'
 
-class SignIn extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {value: ''};
+export class Login extends Component {
+  state = {
+    username: "",
+    password: ""
+  };
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  static propTypes = {
+    login: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool
+  };
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  }
+  onSubmit = e => {
+    e.preventDefault();
+    this.props.login(this.state.username, this.state.password);
+  };
 
-  handleSubmit(event) {
-    alert('Отправленное имя: ' + this.state.value);
-    event.preventDefault();
-  }
+  onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   render() {
+    if (this.props.isAuthenticated) {
+      return <Redirect to="/home/" />;
+    }
+    const { username, password } = this.state;
     return (
-    <div className='enter-form'>
+      <div className='wrapper'>
+
       <div>
         <Navbar/>
       </div>
 
-      <div>
-        <form className="form-signin" onSubmit={this.handleSubmit}>
-        <h1 className="h3 mb-3 font-weight-normal">Выполните вход</h1>
-        <label for="inputEmail" className="sr-only">Email address</label>
-        <input type="email" id="inputEmail" 
-               className="form-control" placeholder="Email address"
-               required autofocus value={this.state.value} onChange={this.handleChange}/>
-        <label for="inputPassword" className="sr-only">Password</label>
-        <input type="password" id="inputPassword" className="form-control" placeholder="Password" required />
-        <div className="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me" /> Remember me
-          </label>
+      <div className="col-md-6 m-auto">
+        <div className="card card-body mt-5">
+          <h2 className="text-center">Вход</h2>
+          <form onSubmit={this.onSubmit}>
+            <div className="form-group">
+              <label>Никнейм</label>
+              <input
+                type="text"
+                className="form-control"
+                name="username"
+                onChange={this.onChange}
+                value={username}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Пароль</label>
+              <input
+                type="password"
+                className="form-control"
+                name="password"
+                onChange={this.onChange}
+                value={password}
+              />
+            </div>
+
+            <div className="form-group">
+              <button type="submit" className="btn btn-primary">
+                Войти
+              </button>
+            </div>
+            <p>
+              Нет аккаунта? <Link to="/registration">Регистрация</Link>
+            </p>
+          </form>
         </div>
-        <button className="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
-        <p className="mt-5 mb-3 text-muted">&copy; 2019</p>
-        </form>
       </div>
-    </div>
-  );
+      </div>
+    );
   }
 }
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
 
-
-export default SignIn
+export default connect(
+  mapStateToProps,
+  { login }
+)(Login);

@@ -7,7 +7,8 @@ import {
   Route,
   Link,
   useRouteMatch,
-  useParams
+  useParams,
+  Redirect
 } from "react-router-dom";
 
 import Navbar from './Home/Navbar.js';
@@ -19,6 +20,8 @@ import Task from './Task/Task.js';
 
 import { Provider } from 'react-redux';
 import store from './store';
+
+import { loadUser } from './actions/auth'
 
 function Home() {
   return (
@@ -39,7 +42,12 @@ function Home() {
 }
 
 
-function App() {
+class App extends React.Component {
+  componentDidMount() {
+    store.dispatch(loadUser());
+  }
+
+  render() {
   return (
     <Provider store={store}>
     <Router>
@@ -48,7 +56,7 @@ function App() {
           <Route path="/home/">
             <Home />
           </Route>
-          <Route path='/enter'>
+          <Route path='/login'>
             <SignIn />
           </Route>
           <Route path='/registration'>
@@ -63,5 +71,7 @@ function App() {
     </Provider>
   );
 }
+}
+
 
 export default App
