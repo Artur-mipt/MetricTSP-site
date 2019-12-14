@@ -37,70 +37,76 @@ export class Form extends Component {
   render() {
     const { edge1, edge2, edge3, edge4, edge5, edge6 } = this.state;
     return (
-      <div className="card card-body mt-4 mb-4">
+      <div className="card card-body mt-4 mb-4" >
         <h3>Добавить задачу</h3>
-        <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label>Ребро 1</label>
+        <form onSubmit={this.onSubmit} style={{maxHeight: '500px'}}>
+          <div className="form-group" style={{maxHeight: '40px'}}>
+            
             <input
               className="form-control"
+              placeholder='ребро 1'
               type="text"
               name="edge1"
               onChange={this.onChange}
               value={edge1}
             />
           </div>
-          <div className="form-group">
-            <label>Ребро 2</label>
+          <div className="form-group" style={{maxHeight: '50px'}}>
+            
             <input
               className="form-control"
+              placeholder='ребро 2'
               type="text"
               name="edge2"
               onChange={this.onChange}
               value={edge2}
             />
           </div>
-          <div className="form-group">
-            <label>Ребро 3</label>
+          <div className="form-group" style={{maxHeight: '50px'}}>
+            
             <textarea
               className="form-control"
+              placeholder='ребро 3'
               type="text"
               name="edge3"
               onChange={this.onChange}
               value={edge3}
             />
           </div>
-          <div className="form-group">
-            <label>Ребро 4</label>
+          <div className="form-group" style={{maxHeight: '50px'}}>
+            
             <textarea
               className="form-control"
+              placeholder='ребро 4'
               type="text"
               name="edge4"
               onChange={this.onChange}
               value={edge4}
             />
           </div>
-          <div className="form-group">
-            <label>Ребро 5</label>
+          <div className="form-group" style={{maxHeight: '50px'}}>
+            
             <textarea
               className="form-control"
+              placeholder='ребро 5'
               type="text"
               name="edge5"
               onChange={this.onChange}
               value={edge5}
             />
           </div>
-          <div className="form-group">
-            <label>Ребро 6</label>
+          <div className="form-group" style={{maxHeight: '50px'}}>
+            
             <textarea
               className="form-control"
+              placeholder='ребро 6'
               type="text"
               name="edge6"
               onChange={this.onChange}
               value={edge6}
             />
           </div>
-          <div className="form-group">
+          <div className="form-group" style={{maxHeight: '50px'}}>
             <button type="submit" className="btn btn-primary">
               Решить
             </button>

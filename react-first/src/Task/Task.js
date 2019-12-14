@@ -47,7 +47,7 @@ export class Task extends React.Component {
       <div className="col-lg-4">
         
         <React.Fragment>
-        <div>
+        <div style={{maxWidth: '400px', marginLeft: '40px'}}>
           <Form />
         </div>
         </React.Fragment>
@@ -55,12 +55,11 @@ export class Task extends React.Component {
 
       </div>
       <div className="col-lg-8" style={{marginTop: '40px'}}>
-      <h1 className="h3 mb-3 font-weight-normal">Ответ</h1>
-        <img src={graph} />
+      <h2 className="h3 mb-3 font-weight-normal">Задачи</h2>
 
       <React.Fragment>
 
-          <table className="table table-striped">
+          <table className="table table-striped" style={{width: '80%'}}>
           <thead>
             <tr>
               <th>ID задачи</th>

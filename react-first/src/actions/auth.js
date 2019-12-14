@@ -1,4 +1,5 @@
 import axios from "axios";
+import { returnErrors } from "./messages";
 
 import {
   USER_LOADED,
@@ -25,7 +26,10 @@ export const loadUser = () => (dispatch, getState) => {
       });
     })
     .catch(err => {
-      console.log(err)
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+      	type: AUTH_ERROR
+      });
     });
 };
 
@@ -48,8 +52,13 @@ export const login = (username, password) => dispatch => {
 				type: LOGIN_SUCCESS,
 				payload: res.data
 			});
-		}).catch(err => console.log(err))
-}
+		}).catch(err => {
+			dispatch(returnErrors(err.response.data, err.response.status));
+			dispatch({
+				type: LOGIN_FAIL
+			});
+		});
+};
 
 
 // REGISTER USER
@@ -73,7 +82,10 @@ export const register = ({ username, password, email }) => dispatch => {
       });
     })
     .catch(err => {
-      console.log(err)
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+      	type: REGISTER_FAIL
+      });
     });
 };
 
@@ -83,10 +95,13 @@ export const logout = () => (dispatch, getState) => {
   axios
     .post("http://localhost:8000/accounts/logout/", null, tokenConfig(getState))
     .then(res => {
-      console.log(res);
+      dispatch({ type: 'CLEAR_TASK' });
+      dispatch({
+      	type: LOGOUT_SUCCESS
+      })
     })
     .catch(err => {
-      console.log(err)
+      dispatch(returnErrors(err.response.data, err.response.status));
     });
 };
 

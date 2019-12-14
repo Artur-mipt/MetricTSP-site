@@ -1,7 +1,8 @@
 import axios from "axios";
 
 import { GET_TASK, DELETE_TASK, ADD_TASK } from "./types";
-import { tokenConfig } from './auth'
+import { tokenConfig } from './auth';
+import { createMessage, returnErrors } from './messages';
 
 // GET TASK
 export const getTask = () => (dispatch, getState) => {
@@ -11,7 +12,9 @@ export const getTask = () => (dispatch, getState) => {
 				type: GET_TASK,
 				payload: res.data
 			})
-		}).catch(err => console.log(err));
+		}).catch(err =>
+			dispatch(returnErrors(err.response.data, err.response.status)) 
+		);
 }; 
 
 
@@ -24,7 +27,9 @@ export const deleteTask = id => (dispatch, getState) => {
 				type: DELETE_TASK,
 				payload: id
 			})
-		}).catch(err => console.log(err));
+		}).catch(err => 
+			console.log(err)
+		);
 }; 
 
 // ADD TASK
@@ -35,5 +40,7 @@ export const addTask = (task) => (dispatch, getState) => {
 				type: ADD_TASK,
 				payload: res.data
 			})
-		}).catch(err => console.log(err));
+		}).catch(err => 
+			dispatch(returnErrors(err.response.data, err.response.status))
+		);
 }; 

@@ -3,8 +3,9 @@ import React from 'react';
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Navbar from '../Home/Navbar.js'
-import { register } from '../actions/auth'
+import Navbar from '../Home/Navbar.js';
+import { register } from '../actions/auth';
+import { createMessage } from '../actions/messages';
 
 
 export class Register extends React.Component {
@@ -24,7 +25,9 @@ export class Register extends React.Component {
     e.preventDefault();
     const { username, email, password, password2 } = this.state;
     if (password !== password2) {
-      console.log('retry');
+      this.props.createMessage({
+        passwordNotMatch: 'Пароли не совпадают'
+      });
     } else {
       const newUser = {
         username,
@@ -39,7 +42,7 @@ export class Register extends React.Component {
 
   render() {
     if (this.props.isAuthenticated) {
-      return <Redirect to="/home/" />;
+      return <Redirect to="/home" />;
     }
     const { username, email, password, password2 } = this.state;
     return (
@@ -51,7 +54,7 @@ export class Register extends React.Component {
       <div>
       <div className="col-md-6 m-auto">
         <div className="card card-body mt-5">
-          <h2 className="text-center">Register</h2>
+          <h2 className="text-center">Регистрация</h2>
           <form onSubmit={this.onSubmit}>
             <div className="form-group">
               <label>Никнейм</label>
@@ -116,5 +119,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { register }
+  { register, createMessage }
 )(Register);
