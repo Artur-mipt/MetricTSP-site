@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import Navbar from '../Home/Navbar.js';
-import graph from './graph.png';
 import Form from './Form';
 
 import { connect } from 'react-redux';

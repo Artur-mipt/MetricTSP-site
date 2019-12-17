@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
-from home.models import Lead, Task
+from home.models import Task
 
 
 
@@ -170,18 +170,6 @@ class MetricTSP:
 		print('ham_cycle: ', ham_cycle) 
 		return ham_cycle
 
-
-# Lead Serializer
-class LeadSerializer(serializers.ModelSerializer):
-	# name = serializers.SerializerMethodField('alt name')
-	message = serializers.SerializerMethodField(method_name='calculate_message')
-	
-	def calculate_message(self, instance):
-		return instance.message + 'add'
-
-	class Meta:
-		model = Lead
-		fields = ('id', 'name', 'email', 'message')
 
 
 class TaskSerializer(serializers.ModelSerializer):

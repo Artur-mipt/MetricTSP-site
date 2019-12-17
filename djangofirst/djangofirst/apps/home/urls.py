@@ -1,10 +1,9 @@
 from django.urls import path, include
 from rest_framework import routers
 from . import views
-from .api import LeadViewSet, TaskViewSet
+from .api import TaskViewSet
 
 router = routers.DefaultRouter()
-# router.register('', LeadViewSet, 'home')
 router.register('', TaskViewSet, 'home')
 
 

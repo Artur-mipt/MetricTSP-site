@@ -1,14 +1,6 @@
-from home.models import Lead, Task
+from home.models import Task
 from rest_framework import viewsets, permissions
-from .serializers import LeadSerializer, TaskSerializer
-
-# Lead Viewset
-class LeadViewSet(viewsets.ModelViewSet):
-	queryset = Lead.objects.all()
-	permission_classes = [
-		permissions.AllowAny
-	]
-	serializer_class = LeadSerializer
+from .serializers import TaskSerializer
 
 
 # Task Viewset
