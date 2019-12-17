@@ -186,6 +186,7 @@ class LeadSerializer(serializers.ModelSerializer):
 
 class TaskSerializer(serializers.ModelSerializer):
 	answer = serializers.SerializerMethodField(method_name='get_answer')
+	image = serializers.SerializerMethodField(method_name='get_image')
 
 	def get_answer(self, instance):
 		edge1 = instance.edge1
@@ -214,6 +215,33 @@ class TaskSerializer(serializers.ModelSerializer):
 		
 		return answer
 
+	def get_image(self, instance):
+		edge1 = instance.edge1
+		edge2 = instance.edge2
+		edge3 = instance.edge3
+		edge4 = instance.edge4
+		edge5 = instance.edge5
+		edge6 = instance.edge6
+		edges = [edge1, edge2, edge3, edge4, edge5, edge6]
+
+		num_nodes = 4
+		graph = np.zeros((num_nodes, num_nodes))
+		for edge in edges:
+			u, v, w = np.array(edge.split(' ')).astype('int')
+			graph[u, v] = w
+			graph[v, u] = w
+
+		
+		tsp_solver = MetricTSP(num_nodes, graph)
+		ham_cycle = tsp_solver.ham_cycle()
+		print(ham_cycle)
+		
+		answer = ''
+		for v in ham_cycle:
+			answer += str(v)
+		print(answer)
+		return 'http://localhost:8000/media/images/' + answer + '.jpg'
+
 	class Meta:
 		model = Task
-		fields = ('id', 'edge1', 'edge2', 'edge3', 'edge4', 'edge5', 'edge6', 'answer')
+		fields = ('id', 'edge1', 'edge2', 'edge3', 'edge4', 'edge5', 'edge6', 'answer', 'image')

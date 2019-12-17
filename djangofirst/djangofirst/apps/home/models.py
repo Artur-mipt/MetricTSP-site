@@ -36,6 +36,7 @@ class Task(models.Model):
 	 	on_delete=models.CASCADE,
 	 	null=True)
 
+	image = models.ImageField(upload_to='images')
 	edge1 = models.CharField(max_length=100)
 	edge2 = models.CharField(max_length=100)
 	edge3 = models.CharField(max_length=100)

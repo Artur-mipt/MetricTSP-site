@@ -70,6 +70,7 @@ export class Task extends React.Component {
               <th>Ребро 5</th>
               <th>Ребро 6</th>
               <th>Ответ </th>
+              <th>Визуализация</th>
               <th />
             </tr>
           </thead>
@@ -84,6 +85,7 @@ export class Task extends React.Component {
                 <td>{task.edge5}</td>
                 <td>{task.edge6}</td>
                 <td>{task.answer}</td>
+                <td> <img src={task.image} style={{maxHeight: '170px', maxWidth: '170px'}}/> </td>
                 <td><button onClick={this.props.deleteTask.bind(this, task.id)}
                 className="btn btn-danger btn-sm">
                 Delete </button> </td>
